@@ -3,12 +3,12 @@ from googleapiclient.discovery import build
 import pandas as pd
 import re
 import time
+from setting import YOUTUBE_API_KEY  # setting.py에서 API 키 가져오기
 
 # -----------------------------
 # 유튜브 API 설정
 # -----------------------------
-api_key = "YOUR_YOUTUBE_API_KEY"  # 여기에 발급받은 API 키 입력
-youtube = build('youtube', 'v3', developerKey=api_key)
+youtube = build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
 
 # -----------------------------
 # 댓글 가져오기 함수
@@ -74,7 +74,6 @@ if st.button("댓글 검색"):
             # 엑셀로 저장
             if filtered_comments:
                 df = pd.DataFrame(filtered_comments, columns=['댓글'])
-                df.to_excel("filtered_comments.xlsx", index=False)
                 st.download_button(
                     label="엑셀로 다운로드",
                     data=df.to_excel(index=False),
