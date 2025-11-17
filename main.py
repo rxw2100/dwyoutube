@@ -3,12 +3,12 @@ from googleapiclient.discovery import build
 import pandas as pd
 import re
 import time
-from setting import YOUTUBE_API_KEY  # setting.py에서 API 키 가져오기
 
 # -----------------------------
 # 유튜브 API 설정
 # -----------------------------
-youtube = build('youtube', 'v3', developerKey=YOUTUBE_API_KEY)
+API_KEY = st.secrets["YOUTUBE"]["API_KEY"]
+youtube = build('youtube', 'v3', developerKey=API_KEY)
 
 # -----------------------------
 # 댓글 가져오기 함수
@@ -19,7 +19,7 @@ def get_comments(video_id, max_results=10000):
     total_fetched = 0
     try:
         while True:
-            results_to_fetch = min(max_results - total_fetched, 100)  # 한 번에 최대 100개씩
+            results_to_fetch = min(max_results - total_fetched, 100)  # 한 번에 최대 100개
             if results_to_fetch <= 0:
                 break
 
@@ -71,7 +71,7 @@ if st.button("댓글 검색"):
             for idx, comment in enumerate(filtered_comments, 1):
                 st.write(f"{idx}. {comment}")
 
-            # 엑셀로 저장
+            # 엑셀로 다운로드 버튼
             if filtered_comments:
                 df = pd.DataFrame(filtered_comments, columns=['댓글'])
                 st.download_button(
